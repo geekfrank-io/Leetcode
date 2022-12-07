@@ -21,14 +21,44 @@ public class SubstringwithConcatenationofAllWords30 {
         public static  List<Integer> findSubstring(String s, String[] words) {
             List<Integer> result = new ArrayList<Integer>();
             int m = words.length,n=words[0].length(),ls=m*n;
-            for (int i=0;i<n;i++)
+            for(int i=0;i<n;i++)
             {
-                Map<String,Integer> map=new HashMap<String,Integer>();
-                for(int j=0;j<m;j++)
+                if (i+m*n>ls) break;
+                HashMap<String, Integer> differ=new HashMap<String, Integer>();
+
+                for (int j=0;j<m;j++)
                 {
+                    String str=s.substring(i+n*j,i+(n+1)*j);
+                    differ.put(str,differ.getOrDefault(str,0)+1);
+                }
+                for (String str: words)
+                {
+                    differ.put(str,differ.getOrDefault(str,0)-1);
+                    if (differ.get(str)==0)
+                    {
+                        differ.remove(str);
+                    }
 
                 }
+                for (int start = i; start < ls - m * n + 1; start += n) {
+                    if (start != i) {
+                        String word = s.substring(start + (m - 1) * n, start + m * n);
+                        differ.put(word, differ.getOrDefault(word, 0) + 1);
+                        if (differ.get(word) == 0) {
+                            differ.remove(word);
+                        }
+                        word = s.substring(start - n, start);
+                        differ.put(word, differ.getOrDefault(word, 0) - 1);
+                        if (differ.get(word) == 0) {
+                            differ.remove(word);
+                        }
+                    }
+                    if (differ.isEmpty()) {
+                        result.add(start);
+                    }
+                }
             }
+
             return result;
         }
     }
