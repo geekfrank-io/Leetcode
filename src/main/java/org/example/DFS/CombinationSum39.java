@@ -23,6 +23,7 @@ public class CombinationSum39 {
 //                //break;
 //            }
 //        }
+        Arrays.sort(candidates);
         for (int i = 0; i < candidates.length; i++) {
             Add(result,candidates,target,0,new ArrayList<>(),candidates[i]);
         }
@@ -42,13 +43,16 @@ public class CombinationSum39 {
             Collections.sort(ResultItem);
             if (!result.contains(ResultItem))
                 result.add(ResultItem);
-        }else {
+        }else if(flag+candidate<target){
             int flagTemp = flag;
             flagTemp += candidate;
             resultItem.add(candidate);
             for (int i = 0; i < candidates.length; i++) {
                 Add(result, candidates, target, flagTemp, resultItem, candidates[i]);
             }
+        }else
+        {
+
         }
 
 
